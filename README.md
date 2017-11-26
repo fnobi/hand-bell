@@ -1,4 +1,4 @@
-kayac-html5-starter
+firebase-reservation
 ====
 
 ## 事前に用意するもの

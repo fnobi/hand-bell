@@ -1,7 +1,7 @@
 {
-  "name": "kayac-html5-starter",
+  "name": "firebase-reservation",
   "version": "0.0.0",
-  "description": "kayac-html5-starter development.",
+  "description": "firebase-reservation development.",
   "main": "gulpfile.babel.js",
   "engines": {
     "node": ">=5.0.0"
