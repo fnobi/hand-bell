@@ -1,4 +1,4 @@
-firebase-reservation
+hand-bell
 ====
 
 ## 事前に用意するもの
