@@ -5,8 +5,8 @@
         button(v-on:click="startGoogleAuth") ログインする
     template(v-else)
         p user: {{ user.email }}
-        Recorder(v-on:blob="handleWavFile")
-        Player(v-bind:sound-key="user.uid")
+        template(v-for="label, id in noteTypes")
+          NoteKey(v-bind:uid="user.uid + '.' + id" v-bind:label="label")
         p: button(v-on:click="logout") ログアウト
 </template>
 
@@ -17,15 +17,12 @@
 </style>
 
 <script>
-import Recorder from './Recorder.vue';
-import Player from './Player.vue';
-import audioManager from '../lib/audioManager';
+import NoteKey from './NoteKey.vue';
 
 export default {
     name: 'Root',
     components: {
-        Recorder,
-        Player
+        NoteKey,
     },
     data () {
         return {
@@ -33,15 +30,21 @@ export default {
             user: null
         };
     },
+    computed: {
+        noteTypes () {
+            return {
+                a: 'A',
+                s: 'S',
+                d: 'D',
+                f: 'F',
+                g: 'G'
+            }
+        },
+    },
     mounted () {
         firebase.auth().onAuthStateChanged((res) => {
             this.initialized = true;
             this.user = res;
-            if (this.user) {
-                audioManager.loadAudioFile(this.user.uid).catch((e) => {
-                    /* do nothing */
-                });
-            }
         });
         firebase.auth().getRedirectResult();
     },
@@ -55,11 +58,6 @@ export default {
                 this.user = null;
             });
         },
-        handleWavFile (blob) {
-            audioManager.saveAudioFile(this.user.uid, blob).catch(() => {
-                alert('アップロードに失敗しました。');
-            });
-        }
     }
 }
 </script>
