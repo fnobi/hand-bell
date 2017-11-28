@@ -10518,7 +10518,81 @@ exports.insert = function (css) {
 }
 
 },{}],109:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("/* line 7, stdin */\n.player[data-v-7d1659a8] {\n  margin: 1em 0em; }\n  /* line 9, stdin */\n  .player[data-disabled][data-v-7d1659a8] {\n    pointer-events: none;\n    opacity: 0.5; }")
+;(function(){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _audioManager = require('../lib/audioManager');
+
+var _audioManager2 = _interopRequireDefault(_audioManager);
+
+var _Recorder = require('./Recorder.vue');
+
+var _Recorder2 = _interopRequireDefault(_Recorder);
+
+var _Player = require('./Player.vue');
+
+var _Player2 = _interopRequireDefault(_Player);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    name: 'NoteKey',
+    props: {
+        uid: String,
+        label: String
+    },
+    components: {
+        Recorder: _Recorder2.default,
+        Player: _Player2.default
+    },
+    data: function data() {
+        return {
+            hasFile: false
+        };
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        _audioManager2.default.on('set:' + this.uid, function () {
+            _this.hasFile = true;
+        });
+        _audioManager2.default.loadAudioFile(this.uid).catch(function (e) {});
+    },
+    destroyed: function destroyed() {
+        _audioManager2.default.off('set:' + this.uid);
+    },
+
+    methods: {
+        handleWavFile: function handleWavFile(blob) {
+            _audioManager2.default.saveAudioFile(this.uid, blob).catch(function () {
+                alert('アップロードに失敗しました。');
+            });
+        }
+    }
+};
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"note-key"},[_c('p',[_vm._v(_vm._s(_vm.label))]),(_vm.hasFile)?[_c('Player',{attrs:{"sound-key":_vm.uid}})]:[_c('Recorder',{on:{"blob":_vm.handleWavFile}})]],2)}
+__vue__options__.staticRenderFns = []
+__vue__options__._scopeId = "data-v-dbb7355c"
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-dbb7355c", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-dbb7355c", __vue__options__)
+  }
+})()}
+},{"../lib/audioManager":115,"./Player.vue":110,"./Recorder.vue":111,"vue":107,"vue-hot-reload-api":106}],110:[function(require,module,exports){
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("/* line 7, stdin */\n.player[data-v-7d1659a8] {\n  margin: 1em 0em; }")
 ;(function(){
 'use strict';
 
@@ -10537,22 +10611,6 @@ exports.default = {
     props: {
         soundKey: String
     },
-    data: function data() {
-        return {
-            hasFile: false
-        };
-    },
-    mounted: function mounted() {
-        var _this = this;
-
-        _audioManager2.default.on('set:' + this.soundKey, function () {
-            _this.hasFile = true;
-        });
-    },
-    destroyed: function destroyed() {
-        _audioManager2.default.off('set:' + this.soundKey);
-    },
-
     methods: {
         play: function play() {
             var audio = _audioManager2.default.getAudio(this.soundKey);
@@ -10567,7 +10625,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"player",attrs:{"data-disabled":!_vm.hasFile}},[_c('button',{on:{"click":_vm.play}},[_vm._v("うぇい")])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"player"},[_c('button',{on:{"click":_vm.play}},[_vm._v("うぇい")])])}
 __vue__options__.staticRenderFns = []
 __vue__options__._scopeId = "data-v-7d1659a8"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
@@ -10578,10 +10636,10 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-7d1659a8", __vue__options__)
   } else {
-    hotAPI.reload("data-v-7d1659a8", __vue__options__)
+    hotAPI.rerender("data-v-7d1659a8", __vue__options__)
   }
 })()}
-},{"../lib/audioManager":114,"vue":107,"vue-hot-reload-api":106,"vueify/lib/insert-css":108}],110:[function(require,module,exports){
+},{"../lib/audioManager":115,"vue":107,"vue-hot-reload-api":106,"vueify/lib/insert-css":108}],111:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("/* line 8, stdin */\n.recorder[data-v-11efe9c9] {\n  margin: 1em 0em; }\n  /* line 10, stdin */\n  .recorder[data-disabled][data-v-11efe9c9] {\n    pointer-events: none;\n    opacity: 0; }")
 ;(function(){
 'use strict';
@@ -10651,7 +10709,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.rerender("data-v-11efe9c9", __vue__options__)
   }
 })()}
-},{"../lib/MicRecording":112,"vue":107,"vue-hot-reload-api":106,"vueify/lib/insert-css":108}],111:[function(require,module,exports){
+},{"../lib/MicRecording":113,"vue":107,"vue-hot-reload-api":106,"vueify/lib/insert-css":108}],112:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("/* line 14, stdin */\n.root[data-v-67cec16d] {\n  margin: 1em; }")
 ;(function(){
 'use strict';
@@ -10660,25 +10718,16 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _Recorder = require('./Recorder.vue');
+var _NoteKey = require('./NoteKey.vue');
 
-var _Recorder2 = _interopRequireDefault(_Recorder);
-
-var _Player = require('./Player.vue');
-
-var _Player2 = _interopRequireDefault(_Player);
-
-var _audioManager = require('../lib/audioManager');
-
-var _audioManager2 = _interopRequireDefault(_audioManager);
+var _NoteKey2 = _interopRequireDefault(_NoteKey);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
     name: 'Root',
     components: {
-        Recorder: _Recorder2.default,
-        Player: _Player2.default
+        NoteKey: _NoteKey2.default
     },
     data: function data() {
         return {
@@ -10686,15 +10735,24 @@ exports.default = {
             user: null
         };
     },
+
+    computed: {
+        noteTypes: function noteTypes() {
+            return {
+                a: 'A',
+                s: 'S',
+                d: 'D',
+                f: 'F',
+                g: 'G'
+            };
+        }
+    },
     mounted: function mounted() {
         var _this = this;
 
         firebase.auth().onAuthStateChanged(function (res) {
             _this.initialized = true;
             _this.user = res;
-            if (_this.user) {
-                _audioManager2.default.loadAudioFile(_this.user.uid).catch(function (e) {});
-            }
         });
         firebase.auth().getRedirectResult();
     },
@@ -10710,11 +10768,6 @@ exports.default = {
             firebase.auth().signOut().then(function () {
                 _this2.user = null;
             });
-        },
-        handleWavFile: function handleWavFile(blob) {
-            _audioManager2.default.saveAudioFile(this.user.uid, blob).catch(function () {
-                alert('アップロードに失敗しました。');
-            });
         }
     }
 };
@@ -10722,7 +10775,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"root"},[(!_vm.initialized)?_c('p',[_vm._v("loading...")]):(!_vm.user)?[_c('button',{on:{"click":_vm.startGoogleAuth}},[_vm._v("ログインする")])]:[_c('p',[_vm._v("user: "+_vm._s(_vm.user.email))]),_c('Recorder',{on:{"blob":_vm.handleWavFile}}),_c('Player',{attrs:{"sound-key":_vm.user.uid}}),_c('p',[_c('button',{on:{"click":_vm.logout}},[_vm._v("ログアウト")])])]],2)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"root"},[(!_vm.initialized)?_c('p',[_vm._v("loading...")]):(!_vm.user)?[_c('button',{on:{"click":_vm.startGoogleAuth}},[_vm._v("ログインする")])]:[_c('p',[_vm._v("user: "+_vm._s(_vm.user.email))]),_vm._l((_vm.noteTypes),function(label, id){return [_c('NoteKey',{attrs:{"uid":_vm.user.uid + '.' + id,"label":label}})]}),_c('p',[_c('button',{on:{"click":_vm.logout}},[_vm._v("ログアウト")])])]],2)}
 __vue__options__.staticRenderFns = []
 __vue__options__._scopeId = "data-v-67cec16d"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
@@ -10736,7 +10789,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.rerender("data-v-67cec16d", __vue__options__)
   }
 })()}
-},{"../lib/audioManager":114,"./Player.vue":109,"./Recorder.vue":110,"vue":107,"vue-hot-reload-api":106,"vueify/lib/insert-css":108}],112:[function(require,module,exports){
+},{"./NoteKey.vue":109,"vue":107,"vue-hot-reload-api":106,"vueify/lib/insert-css":108}],113:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10852,7 +10905,7 @@ var MicRecording = function (_EventEmitter) {
 exports.default = MicRecording;
 ;
 
-},{"./SupportedAudioContext":113,"babel-runtime/core-js/object/get-prototype-of":3,"babel-runtime/core-js/promise":5,"babel-runtime/helpers/classCallCheck":8,"babel-runtime/helpers/createClass":9,"babel-runtime/helpers/inherits":10,"babel-runtime/helpers/possibleConstructorReturn":11,"events":103,"recorderjs":105}],113:[function(require,module,exports){
+},{"./SupportedAudioContext":114,"babel-runtime/core-js/object/get-prototype-of":3,"babel-runtime/core-js/promise":5,"babel-runtime/helpers/classCallCheck":8,"babel-runtime/helpers/createClass":9,"babel-runtime/helpers/inherits":10,"babel-runtime/helpers/possibleConstructorReturn":11,"events":103,"recorderjs":105}],114:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10860,7 +10913,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = window.AudioContext || window.webkitAudioContext;
 
-},{}],114:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10944,7 +10997,7 @@ var AudioManager = function (_EventEmitter) {
 
 exports.default = new AudioManager();
 
-},{"babel-runtime/core-js/object/get-prototype-of":3,"babel-runtime/helpers/classCallCheck":8,"babel-runtime/helpers/createClass":9,"babel-runtime/helpers/inherits":10,"babel-runtime/helpers/possibleConstructorReturn":11,"events":103}],115:[function(require,module,exports){
+},{"babel-runtime/core-js/object/get-prototype-of":3,"babel-runtime/helpers/classCallCheck":8,"babel-runtime/helpers/createClass":9,"babel-runtime/helpers/inherits":10,"babel-runtime/helpers/possibleConstructorReturn":11,"events":103}],116:[function(require,module,exports){
 "use strict";
 
 firebase.initializeApp({
@@ -10956,7 +11009,7 @@ firebase.initializeApp({
   messagingSenderId: "573098208437"
 });
 
-},{}],116:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -10980,4 +11033,4 @@ new _vue2.default({
     }
 });
 
-},{"./components/Root.vue":111,"./lib/initFirebase":115,"vue":107}]},{},[116]);
+},{"./components/Root.vue":112,"./lib/initFirebase":116,"vue":107}]},{},[117]);
