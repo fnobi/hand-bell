@@ -6,7 +6,7 @@
     template(v-else)
         p user: {{ user.email }}
         Recorder(v-on:blob="handleWavFile")
-        Player(sound-key="default")
+        Player(v-bind:sound-key="user.uid")
         p: button(v-on:click="logout") ログアウト
 </template>
 
@@ -37,6 +37,11 @@ export default {
         firebase.auth().onAuthStateChanged((res) => {
             this.initialized = true;
             this.user = res;
+            if (this.user) {
+                audioManager.loadAudioFile(this.user.uid).catch((e) => {
+                    /* do nothing */
+                });
+            }
         });
         firebase.auth().getRedirectResult();
     },
@@ -51,8 +56,9 @@ export default {
             });
         },
         handleWavFile (blob) {
-            const url = (window.URL || window.webkitURL).createObjectURL(blob);
-            audioManager.setAudio('default', url);
+            audioManager.saveAudioFile(this.user.uid, blob).catch(() => {
+                alert('アップロードに失敗しました。');
+            });
         }
     }
 }

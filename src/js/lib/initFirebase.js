@@ -3,6 +3,6 @@ firebase.initializeApp({
   authDomain: "hand-bell.firebaseapp.com",
   databaseURL: "https://hand-bell.firebaseio.com",
   projectId: "hand-bell",
-  storageBucket: "",
+  storageBucket: "hand-bell.appspot.com",
   messagingSenderId: "573098208437"
 });

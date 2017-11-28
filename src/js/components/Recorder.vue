@@ -28,6 +28,9 @@ export default {
     mounted () {
         this.micRecording = new MicRecording();
     },
+    destroyed () {
+        this.micRecording = null;
+    },
     methods: {
         startRecording () {
             this.disabled = true;
