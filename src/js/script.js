@@ -1,19 +1,9 @@
+import Vue from 'vue';
+
 import initFirebase from './lib/initFirebase';
+import Root from './components/Root.vue';
 
-let user;
-
-function init () {
-    firebase.auth().onAuthStateChanged((res) => {
-        user = res;
-        console.log('user', user);
-    });
-
-    firebase.auth().getRedirectResult();
-
-    document.querySelector('.js-button').addEventListener('click', () => {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithRedirect(provider);
-    });
-}
-
-init();
+new Vue({
+    el: document.getElementById('root'),
+    render: (h) => h(Root)
+});

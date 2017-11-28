@@ -10,6 +10,7 @@ import pleeease from 'gulp-pleeease';
 import watchify from 'watchify';
 import browserify from 'browserify';
 import babelify from 'babelify';
+import vueify from 'vueify';
 import pug from 'gulp-pug';
 import browserSync from 'browser-sync';
 import readConfig from 'read-config';
@@ -45,13 +46,14 @@ gulp.task('css', gulp.series('sass'));
 // js
 gulp.task('watchify', () => {
     return watchify(browserify(`${SRC}/js/script.js`))
+        .transform(vueify)
         .transform(babelify)
         .bundle()
         .on("error", function(err) {
             gutil.log(err.message);
             gutil.log(err.codeFrame);
             this.emit('end');
-        })           
+        })
         .pipe(source('script.js'))
         .pipe(gulp.dest(`${DEST}/js`));
 });
@@ -63,7 +65,7 @@ gulp.task('pug', () => {
     const locals = readConfig(`${CONFIG}/meta.yml`);
     locals.versions = revLogger.versions();
     locals.basePath = BASE_PATH;
-    
+
     return gulp.src(`${SRC}/pug/**/[!_]*.pug`)
         .pipe(pug({
             locals: locals,
@@ -87,7 +89,7 @@ gulp.task('browser-sync', () => {
     });
 
     watch([`${SRC}/scss/**/*.scss`], gulp.series('sass', browserSync.reload));
-    watch([`${SRC}/js/**/*.js`], gulp.series('watchify', browserSync.reload));
+    watch([`${SRC}/js/**/*.js`, `${SRC}/js/components/**/*.vue`], gulp.series('watchify', browserSync.reload));
     watch([
         `${SRC}/pug/**/*.pug`,
         `${SRC}/config/meta.yml`
