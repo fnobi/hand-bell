@@ -2,11 +2,12 @@
 .root
     p(v-if="!initialized") loading...
     template(v-else-if="!user")
-      button(v-on:click="startGoogleAuth") ログインする
+        button(v-on:click="startGoogleAuth") ログインする
     template(v-else)
-      p user: {{ user.email }}
-      Recorder(v-on:blob="handleWavFile")
-      p: button(v-on:click="logout") ログアウト
+        p user: {{ user.email }}
+        Recorder(v-on:blob="handleWavFile")
+        Player(sound-key="default")
+        p: button(v-on:click="logout") ログアウト
 </template>
 
 <style lang="scss" scoped>
@@ -17,11 +18,14 @@
 
 <script>
 import Recorder from './Recorder.vue';
+import Player from './Player.vue';
+import audioManager from '../lib/audioManager';
 
 export default {
     name: 'Root',
     components: {
-        Recorder
+        Recorder,
+        Player
     },
     data () {
         return {
@@ -47,7 +51,8 @@ export default {
             });
         },
         handleWavFile (blob) {
-            console.log(blob);
+            const url = (window.URL || window.webkitURL).createObjectURL(blob);
+            audioManager.setAudio('default', url);
         }
     }
 }
