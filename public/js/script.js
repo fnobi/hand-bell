@@ -10534,10 +10534,6 @@ var _Recorder = require('./Recorder.vue');
 
 var _Recorder2 = _interopRequireDefault(_Recorder);
 
-var _Player = require('./Player.vue');
-
-var _Player2 = _interopRequireDefault(_Player);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
@@ -10609,55 +10605,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.rerender("data-v-dbb7355c", __vue__options__)
   }
 })()}
-},{"../lib/audioManager":115,"./Player.vue":110,"./Recorder.vue":111,"vue":107,"vue-hot-reload-api":106,"vueify/lib/insert-css":108}],110:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("/* line 7, stdin */\n.player[data-v-7d1659a8] {\n  margin: 1em 0em; }")
-;(function(){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _audioManager = require('../lib/audioManager');
-
-var _audioManager2 = _interopRequireDefault(_audioManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-    name: 'Player',
-    props: {
-        soundKey: String
-    },
-    methods: {
-        play: function play() {
-            var audio = _audioManager2.default.getAudio(this.soundKey);
-            if (audio) {
-                if (audio.currentTime) audio.currentTime = 0;
-                audio.play();
-            }
-        }
-    }
-};
-})()
-if (module.exports.__esModule) module.exports = module.exports.default
-var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
-if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"player"},[_c('button',{on:{"click":_vm.play}},[_vm._v("うぇい")])])}
-__vue__options__.staticRenderFns = []
-__vue__options__._scopeId = "data-v-7d1659a8"
-if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  module.hot.dispose(__vueify_style_dispose__)
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7d1659a8", __vue__options__)
-  } else {
-    hotAPI.rerender("data-v-7d1659a8", __vue__options__)
-  }
-})()}
-},{"../lib/audioManager":115,"vue":107,"vue-hot-reload-api":106,"vueify/lib/insert-css":108}],111:[function(require,module,exports){
+},{"../lib/audioManager":114,"./Recorder.vue":110,"vue":107,"vue-hot-reload-api":106,"vueify/lib/insert-css":108}],110:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("/* line 8, stdin */\n.recorder[data-v-11efe9c9] {\n  background-color: #888;\n  border-radius: 5px;\n  box-shadow: 0px 4px 0px #333;\n  margin: 10px;\n  padding: 5px;\n  color: #fff;\n  font-size: 12px; }\n  /* line 17, stdin */\n  .recorder[data-is-recording][data-v-11efe9c9] {\n    color: #f00; }\n  /* line 21, stdin */\n  .recorder[data-disabled][data-v-11efe9c9] {\n    pointer-events: none;\n    opacity: 0; }")
 ;(function(){
 'use strict';
@@ -10727,7 +10675,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.rerender("data-v-11efe9c9", __vue__options__)
   }
 })()}
-},{"../lib/MicRecording":113,"vue":107,"vue-hot-reload-api":106,"vueify/lib/insert-css":108}],112:[function(require,module,exports){
+},{"../lib/MicRecording":112,"vue":107,"vue-hot-reload-api":106,"vueify/lib/insert-css":108}],111:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("/* line 22, stdin */\n.root[data-v-67cec16d] {\n  text-align: center; }\n\n/* line 26, stdin */\n.header[data-v-67cec16d] {\n  background-color: #333;\n  color: #fff;\n  padding: 20px; }\n\n/* line 32, stdin */\n.title[data-v-67cec16d] {\n  font-size: 30px;\n  font-weight: bold; }\n\n/* line 37, stdin */\n.description[data-v-67cec16d] {\n  font-size: 12px; }\n\n/* line 41, stdin */\n.content[data-v-67cec16d] {\n  position: fixed;\n  width: 100%;\n  top: 50%;\n  left: 0;\n  transform: translateY(-50%); }\n\n/* line 49, stdin */\n.login[data-v-67cec16d] {\n  display: inline-block;\n  padding: 15px;\n  margin: 15px;\n  line-height: 1;\n  font-weight: bold;\n  font-size: 20px;\n  background-color: #888;\n  color: #fff;\n  border-radius: 5px;\n  box-shadow: 0px 3px 0px #333; }\n\n/* line 62, stdin */\n.footer[data-v-67cec16d] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  padding: 0px;\n  background-color: #ccc;\n  font-size: 14px; }\n\n/* line 72, stdin */\n.user-info[data-v-67cec16d] {\n  margin: 10px; }")
 ;(function(){
 'use strict';
@@ -10781,11 +10729,8 @@ exports.default = {
             firebase.auth().signInWithRedirect(provider);
         },
         logout: function logout() {
-            var _this2 = this;
-
-            firebase.auth().signOut().then(function () {
-                _this2.user = null;
-            });
+            this.initialized = false;
+            firebase.auth().signOut();
         }
     }
 };
@@ -10804,10 +10749,10 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-67cec16d", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-67cec16d", __vue__options__)
+    hotAPI.reload("data-v-67cec16d", __vue__options__)
   }
 })()}
-},{"./NoteKey.vue":109,"vue":107,"vue-hot-reload-api":106,"vueify/lib/insert-css":108}],113:[function(require,module,exports){
+},{"./NoteKey.vue":109,"vue":107,"vue-hot-reload-api":106,"vueify/lib/insert-css":108}],112:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10923,7 +10868,7 @@ var MicRecording = function (_EventEmitter) {
 exports.default = MicRecording;
 ;
 
-},{"./SupportedAudioContext":114,"babel-runtime/core-js/object/get-prototype-of":3,"babel-runtime/core-js/promise":5,"babel-runtime/helpers/classCallCheck":8,"babel-runtime/helpers/createClass":9,"babel-runtime/helpers/inherits":10,"babel-runtime/helpers/possibleConstructorReturn":11,"events":103,"recorderjs":105}],114:[function(require,module,exports){
+},{"./SupportedAudioContext":113,"babel-runtime/core-js/object/get-prototype-of":3,"babel-runtime/core-js/promise":5,"babel-runtime/helpers/classCallCheck":8,"babel-runtime/helpers/createClass":9,"babel-runtime/helpers/inherits":10,"babel-runtime/helpers/possibleConstructorReturn":11,"events":103,"recorderjs":105}],113:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10931,7 +10876,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = window.AudioContext || window.webkitAudioContext;
 
-},{}],115:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11015,7 +10960,7 @@ var AudioManager = function (_EventEmitter) {
 
 exports.default = new AudioManager();
 
-},{"babel-runtime/core-js/object/get-prototype-of":3,"babel-runtime/helpers/classCallCheck":8,"babel-runtime/helpers/createClass":9,"babel-runtime/helpers/inherits":10,"babel-runtime/helpers/possibleConstructorReturn":11,"events":103}],116:[function(require,module,exports){
+},{"babel-runtime/core-js/object/get-prototype-of":3,"babel-runtime/helpers/classCallCheck":8,"babel-runtime/helpers/createClass":9,"babel-runtime/helpers/inherits":10,"babel-runtime/helpers/possibleConstructorReturn":11,"events":103}],115:[function(require,module,exports){
 "use strict";
 
 firebase.initializeApp({
@@ -11027,7 +10972,7 @@ firebase.initializeApp({
   messagingSenderId: "573098208437"
 });
 
-},{}],117:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -11051,4 +10996,4 @@ new _vue2.default({
     }
 });
 
-},{"./components/Root.vue":112,"./lib/initFirebase":116,"vue":107}]},{},[117]);
+},{"./components/Root.vue":111,"./lib/initFirebase":115,"vue":107}]},{},[116]);
