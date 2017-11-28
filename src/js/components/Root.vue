@@ -112,9 +112,8 @@ export default {
             firebase.auth().signInWithRedirect(provider);
         },
         logout () {
-            firebase.auth().signOut().then(() => {
-                this.user = null;
-            });
+            this.initialized = false;
+            firebase.auth().signOut();
         },
     }
 }

@@ -39,7 +39,6 @@
 import audioManager from '../lib/audioManager';
 
 import Recorder from './Recorder.vue';
-import Player from './Player.vue';
 
 export default {
     name: 'NoteKey',
