@@ -1,14 +1,28 @@
 <template lang="pug">
 .root
     p(v-if="!initialized") loading...
-    button(v-else-if="!user" v-on:click="startGoogleAuth") ログインする
+    template(v-else-if="!user")
+      button(v-on:click="startGoogleAuth") ログインする
     template(v-else)
-      p {{ user.email }}
+      p user: {{ user.email }}
+      Recorder(v-on:blob="handleWavFile")
       p: button(v-on:click="logout") ログアウト
 </template>
 
+<style lang="scss" scoped>
+.root {
+    margin: 1em;
+}
+</style>
+
 <script>
+import Recorder from './Recorder.vue';
+
 export default {
+    name: 'Root',
+    components: {
+        Recorder
+    },
     data () {
         return {
             initialized: false,
@@ -32,6 +46,9 @@ export default {
                 this.user = null;
             });
         },
+        handleWavFile (blob) {
+            console.log(blob);
+        }
     }
 }
 </script>

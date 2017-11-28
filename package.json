@@ -35,12 +35,14 @@
     "gutil": "^1.6.4",
     "jquery": "2.*",
     "read-config": "2.0.*",
+    "recorderjs": "https://github.com/fnobi/Recorderjs",
     "reset.css": "^2.0.2",
     "rev-logger": "1.1.1",
+    "vinyl-source-stream": "1.1.*",
     "vue": "^2.5.9",
     "vueify": "^9.4.1",
-    "vinyl-source-stream": "1.1.*",
-    "watchify": "^3.9.0"
+    "watchify": "^3.9.0",
+    "workerify": "^1.1.0"
   },
   "babel": {
     "presets": [
