@@ -10518,6 +10518,7 @@ exports.insert = function (css) {
 }
 
 },{}],109:[function(require,module,exports){
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("/* line 8, stdin */\n.note-key[data-v-dbb7355c] {\n  display: inline-block;\n  position: relative;\n  margin: 20px;\n  width: 80px;\n  height: 80px;\n  vertical-align: top;\n  background-color: #eee; }\n  /* line 16, stdin */\n  .note-key[data-has-file][data-v-dbb7355c] {\n    background-color: #888;\n    box-shadow: 0px 7px 0px #333;\n    border-radius: 5px;\n    top: -7px;\n    color: #fff; }\n\n/* line 26, stdin */\n.label[data-v-dbb7355c] {\n  line-height: 1;\n  margin-top: 10px; }\n  /* line 29, stdin */\n  .label[data-has-file][data-v-dbb7355c] {\n    margin-top: 0;\n    font-size: 40px;\n    font-weight: bold;\n    line-height: 80px; }")
 ;(function(){
 'use strict';
 
@@ -10546,12 +10547,12 @@ exports.default = {
         label: String
     },
     components: {
-        Recorder: _Recorder2.default,
-        Player: _Player2.default
+        Recorder: _Recorder2.default
     },
     data: function data() {
         return {
-            hasFile: false
+            hasFile: false,
+            initialized: false
         };
     },
     mounted: function mounted() {
@@ -10560,17 +10561,33 @@ exports.default = {
         _audioManager2.default.on('set:' + this.uid, function () {
             _this.hasFile = true;
         });
-        _audioManager2.default.loadAudioFile(this.uid).catch(function (e) {});
+        _audioManager2.default.loadAudioFile(this.uid).then(function () {
+            _this.initialized = true;
+        }).catch(function (e) {
+            _this.initialized = true;
+        });
     },
     destroyed: function destroyed() {
-        _audioManager2.default.off('set:' + this.uid);
+        _audioManager2.default.removeAllListeners('set:' + this.uid);
     },
 
     methods: {
         handleWavFile: function handleWavFile(blob) {
-            _audioManager2.default.saveAudioFile(this.uid, blob).catch(function () {
+            var _this2 = this;
+
+            this.initialized = false;
+            _audioManager2.default.saveAudioFile(this.uid, blob).then(function () {
+                _this2.initialized = true;
+            }).catch(function () {
                 alert('アップロードに失敗しました。');
             });
+        },
+        play: function play() {
+            var audio = _audioManager2.default.getAudio(this.uid);
+            if (audio) {
+                if (audio.currentTime) audio.currentTime = 0;
+                audio.play();
+            }
         }
     }
 };
@@ -10578,20 +10595,21 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"note-key"},[_c('p',[_vm._v(_vm._s(_vm.label))]),(_vm.hasFile)?[_c('Player',{attrs:{"sound-key":_vm.uid}})]:[_c('Recorder',{on:{"blob":_vm.handleWavFile}})]],2)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"note-key",attrs:{"data-has-file":_vm.hasFile},on:{"click":_vm.play}},[_c('p',{staticClass:"label",attrs:{"data-has-file":_vm.hasFile}},[_vm._v(_vm._s(_vm.label))]),(_vm.initialized && !_vm.hasFile)?_c('Recorder',{on:{"blob":_vm.handleWavFile}}):_vm._e()],1)}
 __vue__options__.staticRenderFns = []
 __vue__options__._scopeId = "data-v-dbb7355c"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.accept()
+  module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-dbb7355c", __vue__options__)
   } else {
-    hotAPI.reload("data-v-dbb7355c", __vue__options__)
+    hotAPI.rerender("data-v-dbb7355c", __vue__options__)
   }
 })()}
-},{"../lib/audioManager":115,"./Player.vue":110,"./Recorder.vue":111,"vue":107,"vue-hot-reload-api":106}],110:[function(require,module,exports){
+},{"../lib/audioManager":115,"./Player.vue":110,"./Recorder.vue":111,"vue":107,"vue-hot-reload-api":106,"vueify/lib/insert-css":108}],110:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("/* line 7, stdin */\n.player[data-v-7d1659a8] {\n  margin: 1em 0em; }")
 ;(function(){
 'use strict';
@@ -10640,7 +10658,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   }
 })()}
 },{"../lib/audioManager":115,"vue":107,"vue-hot-reload-api":106,"vueify/lib/insert-css":108}],111:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("/* line 8, stdin */\n.recorder[data-v-11efe9c9] {\n  margin: 1em 0em; }\n  /* line 10, stdin */\n  .recorder[data-disabled][data-v-11efe9c9] {\n    pointer-events: none;\n    opacity: 0; }")
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("/* line 8, stdin */\n.recorder[data-v-11efe9c9] {\n  background-color: #888;\n  border-radius: 5px;\n  box-shadow: 0px 4px 0px #333;\n  margin: 10px;\n  padding: 5px;\n  color: #fff;\n  font-size: 12px; }\n  /* line 17, stdin */\n  .recorder[data-is-recording][data-v-11efe9c9] {\n    color: #f00; }\n  /* line 21, stdin */\n  .recorder[data-disabled][data-v-11efe9c9] {\n    pointer-events: none;\n    opacity: 0; }")
 ;(function(){
 'use strict';
 
@@ -10695,7 +10713,7 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"recorder",attrs:{"data-disabled":_vm.disabled}},[(_vm.isRecording)?_c('button',{on:{"click":_vm.stopRecording}},[_vm._v("止める")]):_c('button',{on:{"click":_vm.startRecording}},[_vm._v("録音する")])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"recorder",attrs:{"data-disabled":_vm.disabled,"data-is-recording":_vm.isRecording}},[(_vm.isRecording)?_c('div',{on:{"click":_vm.stopRecording}},[_vm._v("STOP")]):_c('div',{on:{"click":_vm.startRecording}},[_vm._v("REC")])])}
 __vue__options__.staticRenderFns = []
 __vue__options__._scopeId = "data-v-11efe9c9"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
@@ -10710,7 +10728,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   }
 })()}
 },{"../lib/MicRecording":113,"vue":107,"vue-hot-reload-api":106,"vueify/lib/insert-css":108}],112:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("/* line 14, stdin */\n.root[data-v-67cec16d] {\n  margin: 1em; }")
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("/* line 22, stdin */\n.root[data-v-67cec16d] {\n  text-align: center; }\n\n/* line 26, stdin */\n.header[data-v-67cec16d] {\n  background-color: #333;\n  color: #fff;\n  padding: 20px; }\n\n/* line 32, stdin */\n.title[data-v-67cec16d] {\n  font-size: 30px;\n  font-weight: bold; }\n\n/* line 37, stdin */\n.description[data-v-67cec16d] {\n  font-size: 12px; }\n\n/* line 41, stdin */\n.content[data-v-67cec16d] {\n  position: fixed;\n  width: 100%;\n  top: 50%;\n  left: 0;\n  transform: translateY(-50%); }\n\n/* line 49, stdin */\n.login[data-v-67cec16d] {\n  display: inline-block;\n  padding: 15px;\n  margin: 15px;\n  line-height: 1;\n  font-weight: bold;\n  font-size: 20px;\n  background-color: #888;\n  color: #fff;\n  border-radius: 5px;\n  box-shadow: 0px 3px 0px #333; }\n\n/* line 62, stdin */\n.footer[data-v-67cec16d] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  padding: 0px;\n  background-color: #ccc;\n  font-size: 14px; }\n\n/* line 72, stdin */\n.user-info[data-v-67cec16d] {\n  margin: 10px; }")
 ;(function(){
 'use strict';
 
@@ -10775,8 +10793,8 @@ exports.default = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"root"},[(!_vm.initialized)?_c('p',[_vm._v("loading...")]):(!_vm.user)?[_c('button',{on:{"click":_vm.startGoogleAuth}},[_vm._v("ログインする")])]:[_c('p',[_vm._v("user: "+_vm._s(_vm.user.email))]),_vm._l((_vm.noteTypes),function(label, id){return [_c('NoteKey',{attrs:{"uid":_vm.user.uid + '.' + id,"label":label}})]}),_c('p',[_c('button',{on:{"click":_vm.logout}},[_vm._v("ログアウト")])])]],2)}
-__vue__options__.staticRenderFns = []
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"root"},[_vm._m(0,false,false),_c('div',{staticClass:"content"},[(!_vm.initialized)?[_vm._v("loading...")]:(_vm.user)?[_vm._l((_vm.noteTypes),function(label, id){return [_c('NoteKey',{attrs:{"uid":_vm.user.uid + '.' + id,"label":label}})]})]:_vm._e()],2),_c('footer',{staticClass:"footer"},[(_vm.user)?_c('div',{staticClass:"user-info"},[_vm._v(_vm._s(_vm.user.email)+" | "),_c('a',{attrs:{"href":"#"},on:{"click":function($event){$event.preventDefault();_vm.logout($event)}}},[_vm._v("logout")])]):(_vm.initialized)?[_c('div',{staticClass:"login",on:{"click":_vm.startGoogleAuth}},[_vm._v("ログインする")])]:_vm._e()],2)])}
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('header',{staticClass:"header"},[_c('h1',{staticClass:"title"},[_vm._v("hand-bell")]),_c('div',{staticClass:"description"},[_vm._v("この場で音を録音して音色をつくる、サンプラーアプリです。")])])}]
 __vue__options__._scopeId = "data-v-67cec16d"
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
